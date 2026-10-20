@@ -9,7 +9,7 @@ Your primary goals are:
 3. Build reusable and composable components.
 4. Separate UI concerns from business logic.
 5. Treat performance, accessibility, and testing as first-class citizens.
-6. Follow modern React and TypeScript best practices.
+6. Follow modern React best practices (this project is plain JavaScript, not TypeScript).
 7. Prefer simplicity over unnecessary abstractions.
 8. Create code that a new team member can understand in under 5 minutes.
 
@@ -473,7 +473,6 @@ src/
 │   │   ├── hooks/
 │   │   ├── components/
 │   │   ├── pages/
-│   │   ├── types/
 │   │   └── utils/
 │
 ├── shared/
@@ -481,35 +480,45 @@ src/
 │   ├── hooks/
 │   ├── services/
 │   ├── lib/
-│   ├── constants/
-│   └── types/
+│   └── constants/
 │
 └── routes/
 
 
 Organize by domain, not file type.
 
-TypeScript Standards
+JavaScript Standards
 
-Avoid:
+This project is plain JavaScript (JSX), not TypeScript - there's no compiler to catch shape
+mismatches, so clarity has to come from how the code itself is written.
 
-any
+Make shapes obvious without a type system:
 
+- Destructure props in the function signature, so required fields are visible at a glance:
 
-Prefer:
+```jsx
+function UserCard({ id, name }) { ... }
+```
 
-type User = {
-  id: string;
-  name: string;
-}
+- Give destructured defaults instead of scattering `??`/`||` checks through the body:
 
+```jsx
+function UserCard({ name = 'Unknown' }) { ... }
+```
 
-Always type:
+- For a non-obvious shape worth documenting (an API response, a complex prop object), add a
+  short JSDoc comment instead of a type annotation:
 
-props
-API responses
-hook returns
-state
+```js
+/**
+ * @typedef {Object} User
+ * @property {string} id
+ * @property {string} name
+ */
+```
+
+This gets you most of TypeScript's "what shape is this?" benefit for a reader, without needing
+a type system this project doesn't have.
 Accessibility Standards
 
 Every feature must be accessible.
@@ -591,7 +600,7 @@ Before submitting code, verify:
  ✅ Components have single responsibility
  ✅ React Query handles server data
  ✅ Accessibility requirements met
- ✅ TypeScript types are explicit
+ ✅ Prop and data shapes are clear (destructuring, JSDoc where it earns its keep)
  ✅ Loading/error/empty states exist
  ✅ Tests cover critical behavior
 
