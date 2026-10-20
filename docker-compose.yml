@@ -1,0 +1,25 @@
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: BankBranchPinPointer.Api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      # Only needed if you want to open the API directly from a browser (e.g. Swagger UI at
+      # http://localhost:8080/swagger) while this stack is running - the frontend container
+      # itself never needs this, since nginx proxies /api/ to this service server-side.
+      - Cors__AllowedOrigins__0=http://localhost:5173
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Empty on purpose: see the comment in frontend/Dockerfile. This makes the built app
+        # call same-origin relative paths like "/api/branches", which nginx.conf proxies to
+        # the "api" service above.
+        VITE_API_BASE_URL: ""
+    ports:
+      - "5173:80"
+    depends_on:
+      - api

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BankBranchPinPointer.Api.Tests/BankBranchPinPointer.Api.Tests.csproj" />
+  <Project Path="BankBranchPinPointer.Api/BankBranchPinPointer.Api.csproj" />
+</Solution>

@@ -1,31 +1,62 @@
 # Bank Branch PinPointer
 
-A learning sandbox for working through React concepts step by step - data fetching (React
-Query), component structure, and the built-in hooks (`useState`, `useEffect`, and friends) -
-one concept at a time, with each one introduced deliberately rather than inherited from a
-template.
+A learning sandbox for working through production-grade React concepts step by step - data
+fetching with React Query, component structure, and the built-in hooks - against a real backend,
+rather than against mock-in-the-browser data.
 
-## What's here right now
+- **`api/`** - a .NET 8 API (MVC controllers) serving mocked Capitec Bank branch data and a
+  places autocomplete endpoint. Structurally and functionally the same as the
+  [Branch-Locator-Map](https://github.com/LebohangMokodutlo/Branch-Locator-Map) project's API.
+  See [`api/README.md`](api/README.md). This half is pre-built - it's infrastructure to fetch
+  from, not something being learned here.
+- **`frontend/`** - a React + Vite single-page app, deliberately kept minimal (just
+  Vite/React/ESLint/Tailwind) so each data-fetching/hooks/component concept gets added
+  one at a time, with explanation, rather than inherited from a template. See
+  [`frontend/README.md`](frontend/README.md) for the learning roadmap.
 
-Deliberately just the bare minimum: Vite, React, and ESLint. No router, no data-fetching
-library, no map, no business logic. Everything beyond this gets added one step at a time.
+## Quick start (Docker)
 
 ```bash
-npm install
-npm run dev     # http://localhost:5173
-npm run lint
-npm run build
+docker compose up --build
 ```
 
-## Planned learning path
+- Frontend: http://localhost:5173
+- API directly (e.g. for Swagger): http://localhost:8080/swagger
 
-Rough order, adjusted as we go:
+## Quick start (without Docker)
 
-1. **Data fetching** - starting with a plain `fetch` + `useState`/`useEffect` to see what a
-   data-fetching hook has to handle by hand (loading/error state, race conditions, cleanup),
-   then introducing **React Query** and comparing what it takes off your plate.
-2. **Component structure** - splitting UI into components, props vs. state, lifting state up.
-3. **Custom hooks** - extracting reusable logic once a pattern repeats.
-4. Further topics as they come up (context, forms, routing, etc.).
+In one terminal:
 
-No fixed deadline - this is paced around understanding each concept before moving to the next.
+```bash
+cd api/BankBranchPinPointer.Api
+dotnet run --urls http://localhost:8080
+```
+
+In another:
+
+```bash
+cd frontend
+npm install
+cp .env.example .env
+npm run dev
+```
+
+Then open http://localhost:5173.
+
+## Running tests
+
+```bash
+# API
+cd api && dotnet test BankBranchPinPointer.Api.Tests/BankBranchPinPointer.Api.Tests.csproj
+```
+
+The frontend doesn't have a test runner configured yet - that's one of the concepts to add as
+part of the learning path, once there's actual logic worth testing.
+
+## Repository layout
+
+```
+api/        .NET 8 API (MVC controllers) - see api/README.md
+frontend/   React + Vite SPA, learning sandbox - see frontend/README.md
+docker-compose.yml   runs both together for local use
+```
