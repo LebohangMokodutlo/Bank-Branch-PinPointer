@@ -10,3 +10,8 @@ body {
   margin: 0;
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
 }
+
+.leaflet-map-container {
+  height: 100%;
+  width: 100%;
+}
