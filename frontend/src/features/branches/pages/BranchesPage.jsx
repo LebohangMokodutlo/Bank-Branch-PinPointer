@@ -2,7 +2,11 @@ import { useBranches } from '../hooks/useBranches';
 import LeafletMap from '../components/LeafletMap';
 
 const BranchesPage = () => {
-  const { data: branches, isLoading, error } = useBranches();
+  const {
+    data: branches,
+    error,
+    isLoading,
+  } = useBranches();
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Couldn&apos;t load branches: {error.message}</p>;
