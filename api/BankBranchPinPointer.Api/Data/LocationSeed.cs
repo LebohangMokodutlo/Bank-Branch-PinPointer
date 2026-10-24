@@ -11,10 +11,16 @@ namespace BankBranchPinPointer.Api.Data;
 /// Cape hubs carry much higher weights so generated branches cluster there, matching real-world
 /// bank branch density.
 /// </param>
+/// <param name="IsCoastal">
+/// True for a hub whose named centre sits close enough to the coast (or a harbour/bay) that the
+/// normal city/suburb jitter radius could land a generated branch in the water. These hubs get
+/// a much smaller, dedicated jitter radius instead - see MockDataSeeder.Jitter.
+/// </param>
 public record LocationSeed(
     string Name,
     Province Province,
     double Latitude,
     double Longitude,
     double Weight,
-    string Type);
+    string Type,
+    bool IsCoastal = false);
