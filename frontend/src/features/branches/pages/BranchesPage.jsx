@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { useBranches } from '../hooks/useBranches';
-import { useNearestBranch } from '../hooks/useNearestBranch';
+
 import LeafletMap from '../components/LeafletMap';
 import PlacesSearch from '../components/PlacesSearch';
 import LocateMeButton from '../components/LocateMeButton';
+import MapLegend from '../components/MapLegend';
+
+import { useBranches } from '../hooks/useBranches';
+import { useNearestBranch } from '../hooks/useNearestBranch';
+
 
 const BranchesPage = () => {
   const { data: branches, isLoading, error } = useBranches();
@@ -31,6 +35,7 @@ const BranchesPage = () => {
 
       <main className="relative flex-1">
         <LeafletMap branches={branches} selectedPlace={selectedPlace} nearestBranch={nearestBranch} />
+        <MapLegend />
       </main>
     </div>
   );
