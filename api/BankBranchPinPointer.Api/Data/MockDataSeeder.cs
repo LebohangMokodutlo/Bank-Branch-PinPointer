@@ -16,9 +16,14 @@ public static class MockDataSeeder
 
     private const string BankName = "Capitec Bank";
 
-    private static readonly string[] AllServices =
+    // Roughly matches the real-world mix of standalone ATMs vs staffed branches.
+    private const double AtmOnlyProbability = 0.25;
+
+    // Staffed services only - "ATM" isn't in this list because every branch (and, by
+    // definition, every ATM) already has one; this is what varies between full branches.
+    private static readonly string[] StaffedServices =
     {
-        "ATM", "Cash Deposit", "Card Services", "Personal Loans", "Forex", "Account Opening", "Business Banking",
+        "Cash Deposit", "Card Services", "Personal Loans", "Forex", "Account Opening", "Business Banking",
     };
 
     private static readonly string[] StreetNames =
@@ -39,11 +44,13 @@ public static class MockDataSeeder
         {
             var hub = PickWeightedHub(hubs, totalWeight, random);
             var (latitude, longitude) = Jitter(hub, random);
+            var isAtmOnly = random.NextDouble() < AtmOnlyProbability;
+            var branchType = isAtmOnly ? BranchType.Atm : BranchType.Branch;
 
             branches.Add(new BankBranch(
                 Id: NextGuid(random),
                 Bank: BankName,
-                Name: $"{BankName} - {hub.Name}",
+                Name: isAtmOnly ? $"{BankName} ATM - {hub.Name}" : $"{BankName} - {hub.Name}",
                 BranchCode: random.Next(100000, 999999).ToString(),
                 Address: new Address(
                     Street: $"{random.Next(1, 300)} {StreetNames[random.Next(StreetNames.Length)]}",
@@ -54,7 +61,8 @@ public static class MockDataSeeder
                 Latitude: latitude,
                 Longitude: longitude,
                 Phone: $"0{random.Next(10, 99)} {random.Next(100, 999)} {random.Next(1000, 9999)}",
-                Services: PickServices(random)));
+                Type: branchType,
+                Services: PickServices(branchType, random)));
         }
 
         return branches;
@@ -113,10 +121,21 @@ public static class MockDataSeeder
         return (SouthAfricaBoundingBox.ClampLatitude(latitude), SouthAfricaBoundingBox.ClampLongitude(longitude));
     }
 
-    private static IReadOnlyList<string> PickServices(Random random)
+    /// <summary>
+    /// Every location offers "ATM". An ATM-only site offers nothing else; a staffed branch
+    /// also gets 2-4 random staffed services, so "is this a real branch?" never has to be
+    /// guessed from which services happen to be listed.
+    /// </summary>
+    private static IReadOnlyList<string> PickServices(BranchType type, Random random)
     {
-        var count = random.Next(2, 5);
-        return AllServices.OrderBy(_ => random.Next()).Take(count).ToList();
+        if (type == BranchType.Atm)
+        {
+            return new[] { "ATM" };
+        }
+
+        var staffedCount = random.Next(2, 5);
+        var staffed = StaffedServices.OrderBy(_ => random.Next()).Take(staffedCount);
+        return new[] { "ATM" }.Concat(staffed).ToList();
     }
 
     private static Guid NextGuid(Random random)

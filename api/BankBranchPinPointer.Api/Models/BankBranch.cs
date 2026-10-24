@@ -12,4 +12,5 @@ public record BankBranch(
     double Latitude,
     double Longitude,
     string Phone,
+    BranchType Type,
     IReadOnlyList<string> Services);
