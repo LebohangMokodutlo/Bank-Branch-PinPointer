@@ -81,12 +81,14 @@ public static class MockDataSeeder
     }
 
     // ~111km per degree of latitude, so these translate roughly to: city 3.9km, suburb 2km,
-    // coastal 0.9km. The coastal figure is deliberately much smaller than city/suburb - being
+    // coastal 0.7km. The coastal figure is deliberately much smaller than city/suburb - being
     // a big city (Cape Town CBD, Durban CBD) doesn't make a wide scatter safe when the named
-    // centre sits right next to a harbour or bay. Hubs are flagged IsCoastal in SeedHubs.cs.
+    // centre sits right next to a harbour or bay, and some coastal suburbs (Sea Point) are
+    // narrow enough that even this is only safe combined with a well-centred hub coordinate.
+    // Hubs are flagged IsCoastal in SeedHubs.cs.
     private const double CityJitterRadiusDegrees = 0.035;
     private const double SuburbJitterRadiusDegrees = 0.018;
-    private const double CoastalJitterRadiusDegrees = 0.008;
+    private const double CoastalJitterRadiusDegrees = 0.006;
 
     /// <summary>
     /// Scatters a point within a small radius of the hub so branches around the same hub don't

@@ -48,7 +48,10 @@ public static class SeedHubs
 
         // Western Cape
         new("Cape Town CBD", Province.WesternCape, -33.9249, 18.4241, 14, "city", IsCoastal: true),
-        new("Sea Point", Province.WesternCape, -33.9170, 18.3845, 6, "suburb", IsCoastal: true),
+        // Nudged east from the promenade-adjacent -33.9170, 18.3845 to -33.9153, 18.3925 (closer
+        // to Sea Point's actual built-up centre) - the original point sat close enough to the
+        // beach that even the coastal jitter radius had its ocean-facing half over water.
+        new("Sea Point", Province.WesternCape, -33.9153, 18.3925, 6, "suburb", IsCoastal: true),
         new("Claremont", Province.WesternCape, -33.9808, 18.4647, 5, "suburb"),
         new("Bellville", Province.WesternCape, -33.9000, 18.6292, 6, "suburb"),
         new("Stellenbosch", Province.WesternCape, -33.9321, 18.8602, 6, "suburb"),
