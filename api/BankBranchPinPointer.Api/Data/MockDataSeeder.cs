@@ -84,10 +84,18 @@ public static class MockDataSeeder
     /// Scatters a point within a small radius of the hub (bigger radius for a "city" hub than a
     /// "suburb" one) so branches around the same hub don't all land on the exact same coordinate,
     /// then clamps the result into the South Africa bounding box as a safety net.
+    ///
+    /// The radius is deliberately tight (roughly 4km for a city, 2km for a suburb) rather than
+    /// the ~13km/~6.6km it originally was: many of our hubs (Cape Town, Durban, Umhlanga,
+    /// Hermanus, etc.) are right on the coast, and a wider radius had a real chance of jittering
+    /// a branch straight out into the ocean in whatever direction the random angle happened to
+    /// point. There's no coastline data here to clip against, so shrinking the radius - which
+    /// also means branches stay closer to the suburb they're actually labelled as - is the
+    /// practical fix rather than modelling real coastlines for mock data.
     /// </summary>
     private static (double Latitude, double Longitude) Jitter(LocationSeed hub, Random random)
     {
-        var maxRadiusDegrees = hub.Type == "city" ? 0.12 : 0.06;
+        var maxRadiusDegrees = hub.Type == "city" ? 0.035 : 0.018;
         var angle = random.NextDouble() * 2 * Math.PI;
         var radius = Math.Sqrt(random.NextDouble()) * maxRadiusDegrees;
 
