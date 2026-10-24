@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePlaceSearch } from '../hooks/usePlaceSearch';
+import { usePlaceSearch } from '../hooks/usePlacesSearch';
 
 const PlaceSearch = ({ onSelectPlace }) => {
   const [query, setQuery] = useState('');

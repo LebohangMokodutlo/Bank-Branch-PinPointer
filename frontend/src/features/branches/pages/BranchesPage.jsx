@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useBranches } from '../hooks/useBranches';
 import { useNearestBranch } from '../hooks/useNearestBranch';
 import LeafletMap from '../components/LeafletMap';
-import PlaceSearch from '../components/PlaceSearch';
+import PlacesSearch from '../components/PlacesSearch';
 import LocateMeButton from '../components/LocateMeButton';
 
 const BranchesPage = () => {
@@ -20,7 +20,7 @@ const BranchesPage = () => {
     <div className="flex h-screen flex-col">
       <div className="flex flex-wrap items-center gap-4 border-b border-gray-200 bg-white px-6 py-4">
         <h1 className="text-lg font-semibold">Bank Branch Locator</h1>
-        <PlaceSearch onSelectPlace={setSelectedPlace} />
+        <PlacesSearch onSelectPlace={setSelectedPlace} />
         <LocateMeButton onLocate={setUserLocation} />
         {nearestBranch && (
           <p className="text-sm text-gray-600">
