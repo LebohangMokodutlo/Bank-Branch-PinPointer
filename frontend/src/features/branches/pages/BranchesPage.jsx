@@ -25,7 +25,6 @@ const BranchesPage = () => {
   return (
     <div className="flex h-full flex-col">
       <div className="flex flex-wrap items-center gap-4 border-b border-gray-200 bg-white px-6 py-4">
-        <h1 className="text-lg font-semibold">Bank Branch Locator</h1>
         <PlaceSearch onSelectPlace={setSelectedPlace} />
         <LocateMeButton onLocate={setUserLocation} />
         <BranchTypeFilter value={typeFilter} onChange={setTypeFilter} />
