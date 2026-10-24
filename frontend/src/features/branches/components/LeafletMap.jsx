@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { escapeHtml } from '../utils/escapeHtml';
 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -77,9 +78,7 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch }) => {
     markersByIdRef.current = new Map();
 
     const markers = branches.map((branch) => {
-      const marker = L.marker([branch.latitude, branch.longitude]).bindPopup(
-        `<strong>${branch.name}</strong><br/>${branch.address.street}, ${branch.address.city}`,
-      );
+      const marker = L.marker([branch.latitude, branch.longitude]).bindPopup(buildPopupHtml(branch));
       markersByIdRef.current.set(branch.id, marker);
       return marker;
     });
@@ -87,6 +86,22 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch }) => {
     clusterGroup.addLayers(markers);
     mapRef.current?.fitBounds(clusterGroup.getBounds(), { padding: [32, 32] });
   }, [branches]);
+
+  const buildPopupHtml = (branch) => {
+  const servicesList = branch.services.map((service) => `<li>${escapeHtml(service)}</li>`).join('');
+  const typeLabel = branch.type === 'Atm' ? 'ATM only' : 'Full-service branch';
+
+  return `
+    <div style="min-width: 200px;">
+      <strong>${escapeHtml(branch.name)}</strong><br/>
+      <span style="color: #6b7280; font-size: 12px;">${typeLabel}</span><br/>
+      ${escapeHtml(branch.address.street)}, ${escapeHtml(branch.address.suburb)}<br/>
+      ${escapeHtml(branch.address.city)}, ${escapeHtml(branch.address.postalCode)}<br/>
+      Tel: ${escapeHtml(branch.phone)}
+      <ul style="margin: 6px 0 0; padding-left: 18px;">${servicesList}</ul>
+    </div>
+  `;
+};
 
   useEffect(() => {
     const map = mapRef.current;

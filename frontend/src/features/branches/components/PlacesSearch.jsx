@@ -18,10 +18,15 @@ const PlaceSearch = ({ onSelectPlace }) => {
         type="text"
         value={query}
         placeholder="Search a city or suburb..."
-        onChange={(event) => {
-          setQuery(event.target.value);
+				onChange={(event) => {
+          const newQuery = event.target.value;
+          setQuery(newQuery);
+          if (newQuery.trim() === '') {
+            onSelectPlace(null);
+          }
           setIsOpen(true);
         }}
+
         onFocus={() => setIsOpen(true)}
         onBlur={() => setTimeout(() => setIsOpen(false), 150)}
         className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
