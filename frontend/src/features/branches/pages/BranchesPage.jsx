@@ -22,28 +22,24 @@ const BranchesPage = () => {
   if (!branches?.length) return <p>No branches found.</p>;
 
 
-  return (
-    <div className="flex h-full flex-col">
-      <div className="flex flex-wrap items-center gap-4 border-b border-gray-200 bg-white px-6 py-4">
-        <PlaceSearch onSelectPlace={setSelectedPlace} />
-        <LocateMeButton onLocate={setUserLocation} />
-        <BranchTypeFilter value={typeFilter} onChange={setTypeFilter} />
-        <p className="text-sm text-gray-500">
-          Showing {visibleBranches.length} of {branches.length} branches
-        </p>
-        {nearestBranch && (
-          <p className="text-sm text-gray-600">
-            Nearest: {nearestBranch.branch.name} ({nearestBranch.distanceKm.toFixed(1)} km)
-          </p>
-        )}
-      </div>
+return (
+  <div className="relative h-full">
+    <LeafletMap branches={visibleBranches} selectedPlace={selectedPlace} nearestBranch={nearestBranch} />
+    <MapLegend />
 
-      <main className="relative flex-1">
-        <LeafletMap branches={visibleBranches} selectedPlace={selectedPlace} nearestBranch={nearestBranch} />
-        <MapLegend />
-      </main>
+    <div className="absolute left-4 top-4 z-[1000] flex flex-wrap items-center gap-3">
+      <PlaceSearch onSelectPlace={setSelectedPlace} />
+      <LocateMeButton onLocate={setUserLocation} />
+      <BranchTypeFilter value={typeFilter} onChange={setTypeFilter} />
+      {nearestBranch && (
+        <p className="rounded-md bg-white px-3 py-1.5 text-sm text-gray-600 shadow">
+          Nearest: {nearestBranch.branch.name} ({nearestBranch.distanceKm.toFixed(1)} km)
+        </p>
+      )}
     </div>
-  );
+  </div>
+);
+
 };
 
 export default BranchesPage;
