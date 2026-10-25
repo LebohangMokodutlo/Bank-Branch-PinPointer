@@ -1,4 +1,6 @@
-const STORAGE_KEY = 'bank-branch-pinpointer:searchHistory';
+import { storageKeys } from '../../constants';
+
+const STORAGE_KEY = storageKeys.searchHistory;
 
 function readHistory() {
   try {

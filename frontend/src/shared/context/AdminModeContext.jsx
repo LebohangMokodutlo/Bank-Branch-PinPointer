@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { storageKeys } from '../../constants';
 
-const STORAGE_KEY = 'bank-branch-pinpointer:isAdmin';
+const STORAGE_KEY = storageKeys.isAdmin;
 
 const AdminModeContext = createContext(null);
 

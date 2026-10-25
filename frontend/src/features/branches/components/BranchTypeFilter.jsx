@@ -1,7 +1,9 @@
+import { typeFilterOptions } from '../../../constants';
+
 const OPTIONS = [
-  { value: 'all', label: 'All' },
-  { value: 'Branch', label: 'Branches' },
-  { value: 'Atm', label: 'ATMs' },
+  { value: typeFilterOptions.all, label: 'All' },
+  { value: typeFilterOptions.branch, label: 'Branches' },
+  { value: typeFilterOptions.atm, label: 'ATMs' },
 ];
 
 const BranchTypeFilter = ({ value, onChange }) => {

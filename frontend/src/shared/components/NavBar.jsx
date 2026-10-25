@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom';
 import { useAdminMode } from '../context/AdminModeContext';
+import { routes } from '../../constants';
 
-const ALWAYS_VISIBLE_LINKS = [{ to: '/', label: 'Branch Locator' }];
+const ALWAYS_VISIBLE_LINKS = [{ to: routes.home, label: 'Branch Locator' }];
 
 const ADMIN_ONLY_LINKS = [
-  { to: '/search-analytics', label: 'Search Analytics' },
-  { to: '/manage-branches', label: 'Manage Branches' },
+  { to: routes.searchAnalytics, label: 'Search Analytics' },
+  { to: routes.manageBranches, label: 'Manage Branches' },
 ];
 
 const linkClassName = ({ isActive }) =>
@@ -22,7 +23,7 @@ const NavBar = () => {
   return (
     <nav className="flex items-center gap-3 border-b border-gray-200 bg-white px-6 py-3">
       {links.map((link) => (
-        <NavLink key={link.to} to={link.to} end={link.to === '/'} className={linkClassName}>
+        <NavLink key={link.to} to={link.to} end={link.to === routes.home} className={linkClassName}>
           {link.label}
         </NavLink>
       ))}

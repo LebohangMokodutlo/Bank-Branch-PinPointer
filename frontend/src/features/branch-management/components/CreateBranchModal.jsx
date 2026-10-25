@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import Modal from '../../../shared/components/Modal';
+import { branchTypes } from '../../../constants';
 
 const CreateBranchModal = ({ onClose }) => {
   const [name, setName] = useState('');
   const [street, setStreet] = useState('');
   const [suburb, setSuburb] = useState('');
   const [phone, setPhone] = useState('');
-  const [type, setType] = useState('Branch');
+  const [type, setType] = useState(branchTypes.branch);
 
   return (
     <Modal title="Create branch" onClose={onClose}>
@@ -54,8 +55,8 @@ const CreateBranchModal = ({ onClose }) => {
             onChange={(event) => setType(event.target.value)}
             className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
           >
-            <option value="Branch">Branch</option>
-            <option value="Atm">ATM</option>
+            <option value={branchTypes.branch}>Branch</option>
+            <option value={branchTypes.atm}>ATM</option>
           </select>
         </div>
 

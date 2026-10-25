@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { storageKeys } from '../../constants';
 
-const STORAGE_KEY = 'bank-branch-pinpointer:branchActiveOverrides';
+const STORAGE_KEY = storageKeys.branchActiveOverrides;
 
 const BranchOverridesContext = createContext(null);
 

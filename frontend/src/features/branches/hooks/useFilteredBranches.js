@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 import { getDistanceInKm } from '../../../shared/utils/distance';
+import { typeFilterOptions } from '../../../constants';
 
 const SEARCH_FILTER_RADIUS_KM = 20;
 
 export const useFilteredBranches = (branches, { selectedPlace, typeFilter }) => {
   const typeFiltered = useMemo(() => {
-    if (typeFilter === 'all') {
+    if (typeFilter === typeFilterOptions.all) {
       return branches;
     }
     return branches.filter((branch) => branch.type === typeFilter);

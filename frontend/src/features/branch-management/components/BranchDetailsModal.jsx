@@ -1,4 +1,5 @@
 import Modal from '../../../shared/components/Modal';
+import { branchTypes } from '../../../constants';
 
 const BranchDetailsModal = ({ branch, onClose }) => {
   return (
@@ -20,7 +21,7 @@ const BranchDetailsModal = ({ branch, onClose }) => {
         </div>
         <div>
           <dt className="text-gray-500">Type</dt>
-          <dd>{branch.type === 'Atm' ? 'ATM only' : 'Full-service branch'}</dd>
+          <dd>{branch.type === branchTypes.atm ? 'ATM only' : 'Full-service branch'}</dd>
         </div>
         <div>
           <dt className="text-gray-500">Status</dt>

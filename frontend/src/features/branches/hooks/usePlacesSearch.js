@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from '../../../shared/hooks/useDebounce';
 import { searchPlaces } from '../api/searchPlaces';
+import { queryKeys } from '../../../constants';
 
 const MIN_QUERY_LENGTH = 2;
 
@@ -12,7 +13,7 @@ export const usePlaceSearch = (query) => {
     data,
     isFetching,
 	} = useQuery({
-    queryKey: ['places', trimmedQuery],
+    queryKey: [queryKeys.places, trimmedQuery],
     queryFn: () => searchPlaces(trimmedQuery),
     enabled: trimmedQuery.length >= MIN_QUERY_LENGTH,
   });

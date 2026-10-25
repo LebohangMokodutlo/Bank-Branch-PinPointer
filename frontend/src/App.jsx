@@ -6,6 +6,7 @@ import RequireAdmin from './shared/components/RequireAdmin';
 import BranchesPage from './features/branches/pages/BranchesPage';
 import SearchAnalyticsPage from './features/search-analytics/pages/SearchAnalyticsPage';
 import ManageBranchesPage from './features/branch-management/pages/ManageBranchesPage';
+import { routes } from './constants';
 
 const App = () => {
   return (
@@ -16,9 +17,9 @@ const App = () => {
             <NavBar />
             <div className="flex-1 overflow-hidden">
               <Routes>
-                <Route path="/" element={<BranchesPage />} />
+                <Route path={routes.home} element={<BranchesPage />} />
                 <Route
-                  path="/search-analytics"
+                  path={routes.searchAnalytics}
                   element={
                     <RequireAdmin>
                       <SearchAnalyticsPage />
@@ -26,7 +27,7 @@ const App = () => {
                   }
                 />
                 <Route
-                  path="/manage-branches"
+                  path={routes.manageBranches}
                   element={
                     <RequireAdmin>
                       <ManageBranchesPage />

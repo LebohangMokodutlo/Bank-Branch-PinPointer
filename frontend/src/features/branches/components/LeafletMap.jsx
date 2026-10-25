@@ -10,6 +10,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 import './leafletIconFix';
 import { getClusterTier, MARKER_CLUSTER_OPTIONS } from '../constants/clusterConfig';
+import { branchTypes } from '../../../constants';
 
 const SOUTH_AFRICA_CENTER = [-29.0, 24.5];
 const INITIAL_ZOOM = 6;
@@ -93,7 +94,7 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch, userLocation }) =>
   }, [branches]);
 
  const buildPopupHtml = (branch, userLocation) => {
-  const isAtm = branch.type === 'Atm';
+  const isAtm = branch.type === branchTypes.atm;
   const typeLabel = isAtm ? 'ATM only' : 'Full-service branch';
   const typeBadgeClass = isAtm ? 'bg-gray-100 text-gray-600' : 'bg-primary-light text-primary-dark';
   const directionsUrl = buildGoogleMapsDirectionsUrl(branch.latitude, branch.longitude, userLocation);
