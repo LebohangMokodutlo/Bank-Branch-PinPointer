@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { escapeHtml } from '../utils/escapeHtml';
+import { escapeHtml } from '../utils/escapeHTML';
 import { buildGoogleMapsDirectionsUrl } from '../utils/googleMapsDirections';
 
 import L from 'leaflet';
