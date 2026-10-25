@@ -3,12 +3,13 @@ import { useBranches } from '../../branches/hooks/useBranches';
 import BranchDetailsModal from '../components/BranchDetailsModal';
 import ToggleActiveConfirmModal from '../components/ToggleActiveConfirmModal';
 import CreateBranchModal from '../components/CreateBranchModal';
+import { useBranchOverrides } from '../../../shared/context/BranchOverridesContext';
 
 const PAGE_SIZE = 20;
 
 const ManageBranchesPage = () => {
   const { data: branches, isLoading } = useBranches();
-  const [activeOverrides, setActiveOverrides] = useState({});
+  const { overrides: activeOverrides, setBranchActive } = useBranchOverrides();
   const [viewingBranch, setViewingBranch] = useState(null);
   const [togglingBranch, setTogglingBranch] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -38,10 +39,11 @@ const ManageBranchesPage = () => {
   const pageRows = filteredRows.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   const handleConfirmToggle = () => {
-    setActiveOverrides((prev) => ({
-      ...prev,
-      [togglingBranch.id]: !togglingBranch.isActive,
-    }));
+    // setActiveOverrides((prev) => ({
+    //   ...prev,
+    //   [togglingBranch.id]: !togglingBranch.isActive,
+    // }));
+		setBranchActive(togglingBranch.id, !togglingBranch.isActive);
     setTogglingBranch(null);
   };
 

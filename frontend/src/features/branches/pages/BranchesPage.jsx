@@ -9,15 +9,21 @@ import { useNearestBranch } from '../hooks/useNearestBranch';
 import { useFilteredBranches } from '../hooks/useFilteredBranches';
 
 import { recordSearch } from '../../../shared/services/searchHistory';
+import { useBranchOverrides } from '../../../shared/context/BranchOverridesContext';
+import { useMemo } from 'react';
 
 const BranchesPage = () => {
   const { data: branches, isLoading, error } = useBranches();
+  const { overrides } = useBranchOverrides();
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [typeFilter, setTypeFilter] = useState('all');
 
-  const { typeFiltered, visibleBranches } = useFilteredBranches(branches, { selectedPlace, typeFilter });
-  const nearestBranch = useNearestBranch(userLocation, typeFiltered);
+  const activeBranches = useMemo(
+    () => (branches ?? []).filter((branch) => overrides[branch.id] ?? branch.isActive),
+    [branches, overrides],
+  );
+  const { typeFiltered, visibleBranches } = useFilteredBranches(activeBranches, { selectedPlace, typeFilter });  const nearestBranch = useNearestBranch(userLocation, typeFiltered);
 
  const handleSelectPlace = (place) => {
    setSelectedPlace(place);

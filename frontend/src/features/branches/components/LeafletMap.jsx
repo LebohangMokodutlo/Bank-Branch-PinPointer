@@ -91,29 +91,54 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch, userLocation }) =>
     mapRef.current?.fitBounds(clusterGroup.getBounds(), { padding: [32, 32] });
   }, [branches]);
 
-  const buildPopupHtml = (branch) => {
-  const servicesList = branch.services.map((service) => `<li>${escapeHtml(service)}</li>`).join('');
-  const typeLabel = branch.type === 'Atm' ? 'ATM only' : 'Full-service branch';
-  const directionsUrl = buildGoogleMapsDirectionsUrl(branch.latitude, branch.longitude, userLocation);
+ const buildPopupHtml = (branch, userLocation) => {
+  const isAtm = branch.type === 'Atm';
+  const typeLabel = isAtm ? 'ATM only' : 'Full-service branch';
+  const typeBadgeClass = isAtm ? 'bg-gray-100 text-gray-600' : 'bg-primary-light text-primary-dark';
+   const directionsUrl = buildGoogleMapsDirectionsUrl(branch.latitude, branch.longitude, userLocation);
+  const telHref = `tel:${branch.phone.replace(/\s+/g, '')}`;
 
+  const servicesChips = branch.services
+    .map(
+      (service) =>
+        `<span class="mr-1 mt-1 inline-block rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">${escapeHtml(service)}</span>`,
+    )
+    .join('');
 
-  return `
-    <div style="min-width: 200px;">
-      <strong>${escapeHtml(branch.name)}</strong><br/>
-      <span style="color: #6b7280; font-size: 12px;">${typeLabel}</span><br/>
-      ${escapeHtml(branch.address.street)}, ${escapeHtml(branch.address.suburb)}<br/>
-      ${escapeHtml(branch.address.city)}, ${escapeHtml(branch.address.postalCode)}<br/>
-      Tel: ${escapeHtml(branch.phone)}
-      <ul style="margin: 6px 0 0; padding-left: 18px;">${servicesList}</ul>
-      <a
+   return `
+   <div class="min-w-[240px] font-sans">
+      <p class="text-[15px] font-semibold text-gray-900">${escapeHtml(branch.name)}</p>
+      <span class="mt-1 inline-block rounded-full px-2 py-0.5 text-[11px] font-bold ${typeBadgeClass}">
+        ${typeLabel}
+      </span>
+
+      <div class="mt-2 space-y-1.5 text-[13px] text-gray-700">
+        <div class="flex items-start gap-1.5">
+          <span class="mdi mdi-map-marker-outline text-gray-400"></span>
+          <span>${escapeHtml(branch.address.street)}, ${escapeHtml(branch.address.suburb)}<br/>${escapeHtml(branch.address.city)}, ${escapeHtml(branch.address.postalCode)}</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="mdi mdi-phone-outline text-gray-400"></span>
+          <a href="${telHref}" class="text-gray-700 no-underline">${escapeHtml(branch.phone)}</a>
+       </div>
+      </div>
+
+      <div class="mt-2.5 border-t border-gray-200 pt-2">
+        ${servicesChips}
+      </div>
+
+     <a
         href="${directionsUrl}"
         target="_blank"
         rel="noopener noreferrer"
-        style="display: inline-block; margin-top: 8px; color: #2c70ef; font-weight: 600; text-decoration: none;"
-      >Get directions &rarr;</a>
+        class="mt-3 flex items-center justify-center gap-1.5 rounded-lg bg-primary py-2 text-[13px] font-semibold text-white no-underline hover:bg-primary-dark"
+      >
+        <span class="mdi mdi-directions"></span>
+        Get directions
+     </a>
     </div>
-  `;
-};
+   `;
+ };
 
   useEffect(() => {
     const map = mapRef.current;
