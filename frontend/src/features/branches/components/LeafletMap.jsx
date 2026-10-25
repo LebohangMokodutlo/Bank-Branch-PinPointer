@@ -57,7 +57,7 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch }) => {
     });
 
     map.addLayer(clusterGroup);
-
+    map.zoomControl.setPosition('bottomleft');
     mapRef.current = map;
     clusterGroupRef.current = clusterGroup;
 
