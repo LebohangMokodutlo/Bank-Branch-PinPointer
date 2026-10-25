@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { escapeHtml } from '../utils/escapeHtml';
+import { buildGoogleMapsDirectionsUrl } from '../utils/googleMapsDirections';
 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -90,6 +91,8 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch }) => {
   const buildPopupHtml = (branch) => {
   const servicesList = branch.services.map((service) => `<li>${escapeHtml(service)}</li>`).join('');
   const typeLabel = branch.type === 'Atm' ? 'ATM only' : 'Full-service branch';
+  const directionsUrl = buildGoogleMapsDirectionsUrl(branch.latitude, branch.longitude);
+
 
   return `
     <div style="min-width: 200px;">
@@ -99,6 +102,12 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch }) => {
       ${escapeHtml(branch.address.city)}, ${escapeHtml(branch.address.postalCode)}<br/>
       Tel: ${escapeHtml(branch.phone)}
       <ul style="margin: 6px 0 0; padding-left: 18px;">${servicesList}</ul>
+      <a
++        href="${directionsUrl}"
++        target="_blank"
++        rel="noopener noreferrer"
++        style="display: inline-block; margin-top: 8px; color: #2c70ef; font-weight: 600; text-decoration: none;"
++      >Get directions &rarr;</a>
     </div>
   `;
 };
