@@ -13,6 +13,7 @@ const ManageBranchesPage = () => {
   const [togglingBranch, setTogglingBranch] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
 	const [page, setPage] = useState(0);
+	const [searchQuery, setSearchQuery] = useState('');
 
   const rows = useMemo(() => {
     return (branches ?? []).map((branch) => ({
@@ -21,8 +22,20 @@ const ManageBranchesPage = () => {
     }));
   }, [branches, activeOverrides]);
 
-	const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  const pageRows = rows.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const filteredRows = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) {
+      return rows;
+    }
+    return rows.filter(
+      (branch) =>
+        branch.name.toLowerCase().includes(query) ||
+        branch.address.suburb.toLowerCase().includes(query),
+    );
+  }, [rows, searchQuery]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredRows.length / PAGE_SIZE));
+  const pageRows = filteredRows.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   const handleConfirmToggle = () => {
     setActiveOverrides((prev) => ({
@@ -49,7 +62,16 @@ const ManageBranchesPage = () => {
           Create branch
         </button>
       </div>
-
+			<input
+				type="text"
+				value={searchQuery}
+				onChange={(event) => {
+					setSearchQuery(event.target.value);
+					setPage(0);
+				}}
+				placeholder="Search by name or suburb..."
+				className="mb-4 w-full max-w-sm rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
+			/>
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="border-b border-gray-200 text-left text-gray-500">
@@ -101,7 +123,7 @@ const ManageBranchesPage = () => {
       </table>
 			<div className="mt-4 flex items-center justify-between text-sm text-center">
 				<p className="text-gray-500">
-					Showing {page * PAGE_SIZE + 1}-{Math.min((page + 1) * PAGE_SIZE, rows.length)} of {rows.length}
+   				Showing {page * PAGE_SIZE + 1}-{Math.min((page + 1) * PAGE_SIZE, filteredRows.length)} of {filteredRows.length}
 				</p>
 				<div className="flex items-center gap-2">
 					<button
