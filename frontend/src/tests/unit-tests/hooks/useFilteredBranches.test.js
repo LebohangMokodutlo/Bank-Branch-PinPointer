@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { useFilteredBranches } from './useFilteredBranches';
+import { useFilteredBranches } from '../../../features/branches/hooks/useFilteredBranches';
 import { typeFilterOptions } from '../../../constants';
 
 const branches = [

@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import LocateMeButton from './LocateMeButton';
+import LocateMeButton from '../../../features/branches/components/LocateMeButton';
 
 describe('LocateMeButton', () => {
   afterEach(() => {

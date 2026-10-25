@@ -175,17 +175,26 @@ for this brief.
 ## Testing approach
 
 44 Vitest tests, deliberately scoped to the branch-locator/map feature (the actual brief) rather
-than every feature in the app:
+than every feature in the app. Unlike the source code, tests are **not** colocated with what
+they test - they live centrally under `src/tests/unit-tests/`, grouped by kind rather than by
+feature:
 
-- **Pure logic** (`shared/utils/distance.test.js`, `features/branches/utils/escapeHTML.test.js`,
-  `.../googleMapsDirections.test.js`) - no React involved, straightforward input/output tests.
-- **Hooks** (`useDebounce`, `useNearestBranch`, `useFilteredBranches`, `useBranches`,
-  `usePlacesSearch`) - tested via `@testing-library/react`'s `renderHook`, with
+```
+src/tests/
+  setup.js              registers jest-dom matchers + RTL's cleanup() after every test
+  unit-tests/
+    utils/               distance, escapeHTML, googleMapsDirections
+    hooks/               useDebounce, useNearestBranch, useFilteredBranches, useBranches, usePlacesSearch
+    components/          BranchTypeFilter, MapLegend, LocateMeButton, PlacesSearch
+```
+
+- **Pure logic** (`utils/`) - no React involved, straightforward input/output tests.
+- **Hooks** (`hooks/`) - tested via `@testing-library/react`'s `renderHook`, with
   `vi.useFakeTimers()` for anything debounce-related and a fresh `QueryClient` (with
   `retry: false`, since React Query's default 3-retry backoff otherwise blows past a test's
   timeout waiting for an error state) for anything hitting React Query.
-- **Components** (`BranchTypeFilter`, `MapLegend`, `LocateMeButton`, `PlacesSearch`) - rendered
-  and interacted with via `fireEvent`/`screen`, the same way a user would.
+- **Components** (`components/`) - rendered and interacted with via `fireEvent`/`screen`, the
+  same way a user would.
 
 `LeafletMap.jsx` and `BranchesPage.jsx` aren't unit-tested: the former is almost entirely a thin
 wrapper around the real Leaflet/`leaflet.markercluster` APIs (mocking them meaningfully would

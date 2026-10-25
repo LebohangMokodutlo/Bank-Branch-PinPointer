@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildGoogleMapsDirectionsUrl } from './googleMapsDirections';
+import { buildGoogleMapsDirectionsUrl } from '../../../features/branches/utils/googleMapsDirections';
 
 describe('buildGoogleMapsDirectionsUrl', () => {
   it('builds a destination-only URL when no origin is given', () => {

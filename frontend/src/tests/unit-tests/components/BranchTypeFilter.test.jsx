@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import BranchTypeFilter from './BranchTypeFilter';
+import BranchTypeFilter from '../../../features/branches/components/BranchTypeFilter';
 import { typeFilterOptions } from '../../../constants';
 
 describe('BranchTypeFilter', () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getDistanceInKm } from './distance';
+import { getDistanceInKm } from '../../../shared/utils/distance';
 
 describe('getDistanceInKm', () => {
   it('returns 0 for identical points', () => {

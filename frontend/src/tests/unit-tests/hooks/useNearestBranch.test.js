@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { useNearestBranch } from './useNearestBranch';
+import { useNearestBranch } from '../../../features/branches/hooks/useNearestBranch';
 
 const sandtonBranch = { id: 'sandton', latitude: -26.1076, longitude: 28.0567 };
 const capeTownBranch = { id: 'cape-town', latitude: -33.9249, longitude: 18.4241 };

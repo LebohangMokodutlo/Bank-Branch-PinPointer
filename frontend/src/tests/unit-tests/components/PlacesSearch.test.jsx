@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import PlaceSearch from './PlacesSearch';
-import * as usePlacesSearchModule from '../hooks/usePlacesSearch';
+import PlaceSearch from '../../../features/branches/components/PlacesSearch';
+import * as usePlacesSearchModule from '../../../features/branches/hooks/usePlacesSearch';
 
 // Mocks the hook itself (debounce/fetch behaviour already has its own dedicated tests in
 // usePlacesSearch.test.jsx), so this file can focus purely on "given these suggestions, does

@@ -1,8 +1,8 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { useBranches } from './useBranches';
-import * as getBranchesModule from '../api/getBranches';
+import { useBranches } from '../../../features/branches/hooks/useBranches';
+import * as getBranchesModule from '../../../features/branches/api/getBranches';
 
 // useBranches is a thin useQuery wrapper, so it needs a real QueryClient above it in the tree -
 // a fresh one per test avoids one test's cached result leaking into the next.

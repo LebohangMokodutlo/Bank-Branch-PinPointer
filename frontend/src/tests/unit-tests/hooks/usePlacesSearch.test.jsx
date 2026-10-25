@@ -1,8 +1,8 @@
 import { act, renderHook } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { usePlaceSearch } from './usePlacesSearch';
-import * as searchPlacesModule from '../api/searchPlaces';
+import { usePlaceSearch } from '../../../features/branches/hooks/usePlacesSearch';
+import * as searchPlacesModule from '../../../features/branches/api/searchPlaces';
 
 function renderWithQueryClient(hook) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
