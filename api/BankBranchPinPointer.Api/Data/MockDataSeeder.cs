@@ -62,7 +62,8 @@ public static class MockDataSeeder
                 Longitude: longitude,
                 Phone: $"0{random.Next(10, 99)} {random.Next(100, 999)} {random.Next(1000, 9999)}",
                 Type: branchType,
-                Services: PickServices(branchType, random)));
+                Services: PickServices(branchType, random),
+                IsActive: true));
         }
 
         return branches;

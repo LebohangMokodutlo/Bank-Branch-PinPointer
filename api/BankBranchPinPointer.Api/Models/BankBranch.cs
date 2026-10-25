@@ -13,4 +13,5 @@ public record BankBranch(
     double Longitude,
     string Phone,
     BranchType Type,
-    IReadOnlyList<string> Services);
+    IReadOnlyList<string> Services,
+    bool IsActive);
