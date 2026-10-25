@@ -24,7 +24,13 @@ const BranchesPage = () => {
 
 return (
   <div className="relative h-full">
-    <LeafletMap branches={visibleBranches} selectedPlace={selectedPlace} nearestBranch={nearestBranch} />
+      <LeafletMap
+    branches={visibleBranches}
+    selectedPlace={selectedPlace}
+    nearestBranch={nearestBranch}
+   userLocation={userLocation}
+  />
+
     <MapLegend />
 
     <div className="absolute left-4 top-4 z-[1000] flex flex-wrap items-center gap-3">

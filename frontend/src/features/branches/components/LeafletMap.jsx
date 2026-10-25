@@ -14,7 +14,7 @@ import { getClusterTier, MARKER_CLUSTER_OPTIONS } from '../constants/clusterConf
 const SOUTH_AFRICA_CENTER = [-29.0, 24.5];
 const INITIAL_ZOOM = 6;
 
-const LeafletMap = ({ branches, selectedPlace, nearestBranch }) => {
+const LeafletMap = ({ branches, selectedPlace, nearestBranch, userLocation }) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const clusterGroupRef = useRef(null);
@@ -78,11 +78,14 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch }) => {
     clusterGroup.clearLayers();
     markersByIdRef.current = new Map();
 
-    const markers = branches.map((branch) => {
-      const marker = L.marker([branch.latitude, branch.longitude]).bindPopup(buildPopupHtml(branch));
-      markersByIdRef.current.set(branch.id, marker);
-      return marker;
-    });
+     const markers = branches.map((branch) => {
+      const marker = L.marker([branch.latitude, branch.longitude]).bindPopup(
+        buildPopupHtml(branch, userLocation),
+      );
+      markersByIdRef.current.set(branch.id, { marker, branch });
+       return marker;
+     });
+
 
     clusterGroup.addLayers(markers);
     mapRef.current?.fitBounds(clusterGroup.getBounds(), { padding: [32, 32] });
@@ -91,7 +94,7 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch }) => {
   const buildPopupHtml = (branch) => {
   const servicesList = branch.services.map((service) => `<li>${escapeHtml(service)}</li>`).join('');
   const typeLabel = branch.type === 'Atm' ? 'ATM only' : 'Full-service branch';
-  const directionsUrl = buildGoogleMapsDirectionsUrl(branch.latitude, branch.longitude);
+  const directionsUrl = buildGoogleMapsDirectionsUrl(branch.latitude, branch.longitude, userLocation);
 
 
   return `
@@ -103,11 +106,11 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch }) => {
       Tel: ${escapeHtml(branch.phone)}
       <ul style="margin: 6px 0 0; padding-left: 18px;">${servicesList}</ul>
       <a
-+        href="${directionsUrl}"
-+        target="_blank"
-+        rel="noopener noreferrer"
-+        style="display: inline-block; margin-top: 8px; color: #2c70ef; font-weight: 600; text-decoration: none;"
-+      >Get directions &rarr;</a>
+        href="${directionsUrl}"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="display: inline-block; margin-top: 8px; color: #2c70ef; font-weight: 600; text-decoration: none;"
+      >Get directions &rarr;</a>
     </div>
   `;
 };
@@ -127,12 +130,12 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch }) => {
       return;
     }
 
-    const marker = markersByIdRef.current.get(nearestBranch.branch.id);
-    if (!marker) {
-      return;
-    }
+    const entry = markersByIdRef.current.get(nearestBranch.branch.id);
+    if (!entry) {
+       return;
+     }
 
-    clusterGroup.zoomToShowLayer(marker, () => marker.openPopup());
+    clusterGroup.zoomToShowLayer(entry.marker, () => entry.marker.openPopup());
   }, [nearestBranch]);
 
   return <div ref={mapContainerRef} className="leaflet-map-container" />;
