@@ -25,6 +25,11 @@ Example:
 ```bash
 curl "http://localhost:8080/api/places/autocomplete?query=sand"
 # [{"id":"...","name":"Sandton","type":"suburb","province":"Gauteng","latitude":-26.1076,"longitude":28.0567}]
+
+curl "http://localhost:8080/api/branches" | head -c 400
+# [{"id":"...","bank":"Capitec Bank","name":"Capitec Bank - Sandton","branchCode":"...",
+#   "address":{...},"latitude":...,"longitude":...,"phone":"...",
+#   "type":"Branch","services":["ATM","Card Services",...],"isActive":true}, ...]
 ```
 
 ## How the mock data is generated
@@ -52,6 +57,14 @@ See [`Data/SeedHubs.cs`](BankBranchPinPointer.Api/Data/SeedHubs.cs) and
 - The same `SeedHubs` list, converted to `Place` records, is what the places autocomplete
   endpoint searches - so searching "Sandton" lands you near branches that were actually generated
   around that exact point.
+- Each branch also gets an explicit `Type` (`Branch` or `Atm`, ~25% ATM-only) and `Services` list
+  generated to match - an ATM-only site offers exactly `["ATM"]`, a staffed branch always
+  includes `"ATM"` plus 2-4 random staffed services (Cash Deposit, Card Services, Personal
+  Loans, Forex, Account Opening, Business Banking). This is deliberately explicit rather than
+  inferred from the services list, so a consumer never has to guess "is this a real branch?"
+- `IsActive` is always `true` for every generated branch - deactivating one is a frontend-only
+  concept (see [`../frontend/README.md`](../frontend/README.md)'s Manage Branches section), not
+  something this API models or persists.
 
 Both the branch list and the places list are built once and held in memory for the app's
 lifetime (`InMemoryBranchRepository` / `PlacesSearchService`, both registered as DI singletons in
