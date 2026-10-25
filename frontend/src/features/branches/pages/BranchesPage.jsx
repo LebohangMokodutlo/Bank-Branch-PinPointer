@@ -8,6 +8,8 @@ import { useBranches } from '../hooks/useBranches';
 import { useNearestBranch } from '../hooks/useNearestBranch';
 import { useFilteredBranches } from '../hooks/useFilteredBranches';
 
+import { recordSearch } from '../../../shared/services/searchHistory';
+
 const BranchesPage = () => {
   const { data: branches, isLoading, error } = useBranches();
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -16,6 +18,13 @@ const BranchesPage = () => {
 
   const { typeFiltered, visibleBranches } = useFilteredBranches(branches, { selectedPlace, typeFilter });
   const nearestBranch = useNearestBranch(userLocation, typeFiltered);
+
+ const handleSelectPlace = (place) => {
+   setSelectedPlace(place);
+   if (place) {
+     recordSearch(place);
+   }
+ };
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Couldn&apos;t load branches: {error.message}</p>;
@@ -34,7 +43,7 @@ return (
     <MapLegend />
 
     <div className="absolute left-4 top-4 z-[1000] flex flex-wrap items-center gap-3">
-      <PlaceSearch onSelectPlace={setSelectedPlace} />
+      <PlaceSearch onSelectPlace={handleSelectPlace} />
       <LocateMeButton onLocate={setUserLocation} />
       <BranchTypeFilter value={typeFilter} onChange={setTypeFilter} />
       {nearestBranch && (

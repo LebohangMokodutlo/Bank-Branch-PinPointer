@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { getDistanceInKm } from '../utils/distance';
+import { getDistanceInKm } from '../../../shared/utils/distance';
 
 export const useNearestBranch = (userLocation, branches) => {
   return useMemo(() => {

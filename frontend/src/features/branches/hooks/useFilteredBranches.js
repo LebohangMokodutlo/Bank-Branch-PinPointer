@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { getDistanceInKm } from '../utils/distance';
+import { getDistanceInKm } from '../../../shared/utils/distance';
 
 const SEARCH_FILTER_RADIUS_KM = 20;
 
