@@ -5,7 +5,7 @@ const NEARBY_RADIUS_KM = 20;
 const SEARCH_COUNT_THRESHOLD = 3;
 const SUFFICIENT_BRANCH_COUNT = 3;
 
-export function useSearchDemand(searchHistory, branches) {
+export const useSearchDemand = (searchHistory, branches) => {
   return useMemo(() => {
     return searchHistory.map((entry) => {
       const nearbyBranchCount = branches.filter(
@@ -20,4 +20,4 @@ export function useSearchDemand(searchHistory, branches) {
       return { ...entry, nearbyBranchCount, needsMoreBranches };
     });
   }, [searchHistory, branches]);
-}
+};

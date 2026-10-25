@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import MapLegend from '../../../features/branches/components/MapLegend';
 
-function setViewportWidth(width) {
+const setViewportWidth = (width) => {
   window.innerWidth = width;
   // The resize listener updates state outside of React's own event handling, so without
   // act(), the assertion right after this call could run before React has flushed the
@@ -10,7 +10,7 @@ function setViewportWidth(width) {
   act(() => {
     window.dispatchEvent(new Event('resize'));
   });
-}
+};
 
 describe('MapLegend', () => {
   const originalInnerWidth = window.innerWidth;

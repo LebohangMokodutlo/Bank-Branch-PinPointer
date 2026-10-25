@@ -4,13 +4,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { usePlaceSearch } from '../../../features/branches/hooks/usePlacesSearch';
 import * as searchPlacesModule from '../../../features/branches/api/searchPlaces';
 
-function renderWithQueryClient(hook) {
+const renderWithQueryClient = (hook) => {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   const wrapper = ({ children }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
   return renderHook(hook, { wrapper });
-}
+};
 
 describe('usePlaceSearch', () => {
   beforeEach(() => {

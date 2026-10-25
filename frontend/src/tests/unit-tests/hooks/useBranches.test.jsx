@@ -6,7 +6,7 @@ import * as getBranchesModule from '../../../features/branches/api/getBranches';
 
 // useBranches is a thin useQuery wrapper, so it needs a real QueryClient above it in the tree -
 // a fresh one per test avoids one test's cached result leaking into the next.
-function renderWithQueryClient(hook) {
+const renderWithQueryClient = (hook) => {
   // retry: false - otherwise a failing query retries 3 times with backoff delays before
   // settling into its error state, which blows well past waitFor's default timeout here.
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -14,7 +14,7 @@ function renderWithQueryClient(hook) {
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
   return renderHook(hook, { wrapper });
-}
+};
 
 describe('useBranches', () => {
   afterEach(() => {

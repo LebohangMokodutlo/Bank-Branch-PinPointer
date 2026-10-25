@@ -6,9 +6,9 @@ import * as usePlacesSearchModule from '../../../features/branches/hooks/usePlac
 // Mocks the hook itself (debounce/fetch behaviour already has its own dedicated tests in
 // usePlacesSearch.test.jsx), so this file can focus purely on "given these suggestions, does
 // the dropdown render and react to clicks/clearing correctly?"
-function mockSuggestions(suggestions, isSearching = false) {
+const mockSuggestions = (suggestions, isSearching = false) => {
   vi.spyOn(usePlacesSearchModule, 'usePlaceSearch').mockReturnValue({ suggestions, isSearching });
-}
+};
 
 describe('PlaceSearch', () => {
   it('shows matching suggestions once the input has text', () => {

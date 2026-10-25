@@ -2,20 +2,20 @@ import { storageKeys } from '../../constants';
 
 const STORAGE_KEY = storageKeys.searchHistory;
 
-function readHistory() {
+const readHistory = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : {};
   } catch {
     return {};
   }
-}
-
-function writeHistory(history) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
 };
 
-export function recordSearch(place) {
+const writeHistory = (history) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+};
+
+export const recordSearch = (place) => {
   const history = readHistory();
   const existing = history[place.id];
 
@@ -29,12 +29,12 @@ export function recordSearch(place) {
   };
 
   writeHistory(history);
-}
+};
 
-export function getSearchHistory() {
+export const getSearchHistory = () => {
   return Object.values(readHistory()).sort((a, b) => b.count - a.count);
-}
+};
 
-export function clearSearchHistory() {
+export const clearSearchHistory = () => {
   writeHistory({});
-}
+};
