@@ -6,7 +6,7 @@ const OPTIONS = [
 
 const BranchTypeFilter = ({ value, onChange }) => {
   return (
-    <div className="flex gap-1 rounded-md border border-gray-300 p-1">
+    <div className="flex gap-1 rounded-md border border-gray-300 bg-white p-1">
       {OPTIONS.map((option) => (
         <button
           key={option.value}

@@ -13,7 +13,7 @@ const PlaceSearch = ({ onSelectPlace }) => {
   };
 
   return (
-    <div className="relative w-full max-w-sm">
+    <div className="relative w-100">
       <input
         type="text"
         value={query}
@@ -29,7 +29,7 @@ const PlaceSearch = ({ onSelectPlace }) => {
 
         onFocus={() => setIsOpen(true)}
         onBlur={() => setTimeout(() => setIsOpen(false), 150)}
-        className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-light"
+        className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm focus:border-primary bg-white focus:outline-none focus:ring-2 focus:ring-primary-light"
       />
 
       {isOpen && query.trim().length > 0 && (
