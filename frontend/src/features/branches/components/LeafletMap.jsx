@@ -81,6 +81,7 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch, userLocation }) =>
      const markers = branches.map((branch) => {
       const marker = L.marker([branch.latitude, branch.longitude]).bindPopup(
         buildPopupHtml(branch, userLocation),
+        { autoPanPaddingTopLeft: [10, 80] },
       );
       markersByIdRef.current.set(branch.id, { marker, branch });
        return marker;
@@ -95,7 +96,7 @@ const LeafletMap = ({ branches, selectedPlace, nearestBranch, userLocation }) =>
   const isAtm = branch.type === 'Atm';
   const typeLabel = isAtm ? 'ATM only' : 'Full-service branch';
   const typeBadgeClass = isAtm ? 'bg-gray-100 text-gray-600' : 'bg-primary-light text-primary-dark';
-   const directionsUrl = buildGoogleMapsDirectionsUrl(branch.latitude, branch.longitude, userLocation);
+  const directionsUrl = buildGoogleMapsDirectionsUrl(branch.latitude, branch.longitude, userLocation);
   const telHref = `tel:${branch.phone.replace(/\s+/g, '')}`;
 
   const servicesChips = branch.services
